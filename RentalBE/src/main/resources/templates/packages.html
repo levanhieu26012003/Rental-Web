@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Quản lý gói nâng cấp</title>
+    <!--    <script src="common-script.js"></script>-->
+</head>
+<body>
+<section layout:fragment="content" class="container">
+    <h1 class="text-info text-center">QUẢN LÝ GÓI NÂNG CẤP</h1>
+    <div>
+        <a class="btn btn-success m-2" href="/packages/package">Thêm gói</a>
+    </div>
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Tên gói</th>
+            <th>Số lần đăng bài</th>
+            <th>Giá</th>
+            <th>Thời hạn</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="package : ${packages}">
+            <td th:text="${package.id}"></td>
+            <td th:text="${package.type}"></td>
+            <td th:text="${package.limitTime}"></td>
+            <td th:text="${#numbers.formatDecimal(package.price, 0, 'COMMA',0, 'POINT')} + ' VND'"></td>
+            <td th:text="${package.upgradeTime} + ' ngày'"></td>
+            <td>
+                <a class="btn btn-info m-1" th:href="@{/packages/package/{id}(id=${package.id})}">Chi Tiết</a>
+                <a class="btn btn-danger m-1" th:href="@{/packages/package/delete/{id}(id=${package.id})}">Xóa</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>

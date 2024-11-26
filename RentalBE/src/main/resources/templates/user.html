@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>User Detail Page</title>
+    <!--  <script src="common-script.js"></script>-->
+</head>
+<body>
+<section layout:fragment="content" class="container">
+    <form th:action="@{/users/user}" th:object="${user}" method="post" enctype="multipart/form-data">
+        <div class="form-floating mb-3 mt-3">
+            <input type="text" class="form-control" id="username" th:field="*{username}"/>
+            <label for="username">Username</label>
+        </div>
+        <div class="form-floating mb-3 mt-3">
+            <input type="text" class="form-control" id="fullname" th:field="*{fullname}"/>
+            <label for="fullname">Full Name</label>
+        </div>
+        <div class="form-floating mb-3 mt-3" th:if="${user.id == null}"><input type="password" class="form-control"
+                                                                               id="password" th:field="*{password}"/>
+            <label for="password">Password</label></div>
+        <div class="form-floating mb-3 mt-3">
+            <input type="email" class="form-control" id="email" th:field="*{email}"/>
+            <label for="email">Email</label>
+        </div>
+        <div class="form-floating">
+            <select id="userRole" class="form-select" th:field="*{userRole}">
+                <option value="TENANT" th:selected="${user.userRole == 'TENANT'}">Người dùng</option>
+                <option value="HOST" th:selected="${user.userRole == 'HOST'}">Chủ trọ</option>
+                <option value="EMPLOYEE" th:selected="${user.userRole == 'EMPLOYEE'}">Nhân viên</option>
+            </select>
+            <label for="userRole">Danh mục:</label>
+        </div>
+        <div class="form-floating mb-3 mt-3">
+            <input type="file" class="form-control" th:field="*{file}"/>
+            <div th:if="${user.id > 0}">
+                <img th:src="@{${user.avatar}}" width="200" class="img-fluid m-2"/>
+            </div>
+        </div>
+        <div class="form-floating">
+            <button class="btn btn-info mt-1" type="submit">
+                <span th:text="${user.id > 0 ? 'Cập nhật' : 'Thêm'}"></span>
+            </button>
+            <input type="hidden" th:field="*{id}"/>
+        </div>
+    </form>
+</section>
+</body>
+</html>
+

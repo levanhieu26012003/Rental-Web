@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>User Detail Page</title>
+    <!--  <script src="common-script.js"></script>-->
+</head>
+<body>
+<section layout:fragment="content" class="container">
+    <form th:action="@{/packages/package}" th:object="${package}" method="post" >
+        <div class="form-floating mb-3 mt-3">
+            <input type="text" class="form-control" id="type" th:field="*{type}"/>
+            <label for="type">Tên (Loại)</label>
+        </div>
+        <div class="form-floating mb-3 mt-3">
+            <input type="text" class="form-control" id="price" th:field="*{price}"/>
+            <label for="price">Giá</label>
+        </div>
+        <div class="form-floating mb-3 mt-3">
+            <input type="text" class="form-control" id="limitTime" th:field="*{limitTime}"/>
+            <label for="limitTime">Số lần đăng bài</label>
+        </div>
+        <div class="form-floating">
+            <select id="upgradeTime" class="form-select" th:field="*{upgradeTime}">
+<!--                <option value="TENANT" th:selected="${user.userRole == 'TENANT'}">Tháng</option>-->
+                <option value="30" >Tháng</option>
+                <option value="90" >Quý</option>
+                <option value="365">Năm</option>
+            </select>
+            <label for="upgradeTime">Loại thời gian</label>
+        </div>
+
+        <div class="form-floating">
+            <button class="btn btn-info mt-1" type="submit">
+                <span th:text="${package.id > 0 ? 'Cập nhật' : 'Thêm'}"></span>
+            </button>
+            <input type="hidden" th:field="*{id}"/>
+        </div>
+    </form>
+</section>
+</body>
+</html>
+

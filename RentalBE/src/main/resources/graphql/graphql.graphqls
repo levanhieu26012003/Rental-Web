@@ -1,0 +1,77 @@
+type Query {
+  getMotelById(id: ID!): Motel
+  getAllMotels(limit: Int, offset: Int,priceMin: Int, priceMax: Int, address: String,lat: Float,lng:Float,radius:Float): MotelPage
+  getUserById(id:ID!):User
+  getAllVipPackages:[VipPackage]
+}
+type MotelPage {
+  motels: [Motel]
+  totalCount: Int
+}
+type User {
+  id: ID!
+  active: Boolean
+  createdDate: String
+  fullname: String !
+  updatedDate: String
+  username: String!
+  password: String
+  avatar: String
+  userRole: String
+  email: String!
+  userCollection: [User]
+  userCollection1: [User]
+  reviewsCollection: [Reviews]
+  reviewsCollection1: [Reviews]
+  #    searchinfoCollection: [Searchinfo]
+  commentCollection: [Comment]
+  motelCollection: [Motel]
+}
+type Motel {
+  id: ID
+  active: Boolean
+  createdDate: String
+  updatedDate: String
+  title: String
+  lat: Float
+  lng : Float
+  address: String
+  price: Int
+  area: Float
+  numberTenant: Int
+  wards: String
+  district: String
+  province: String
+  status: String
+  imageCollection: [Image]
+  commentCollection: [Comment]
+  userId: User
+}
+type Image {
+  id: ID!
+  url : String
+}
+type Comment{
+  content: String
+  userId : User
+  createdDate: String
+}
+type Reviews {
+  id: ID!
+  rating: Int
+  comment: String
+  createdDate: String
+  updatedDate: String
+  hostId: User
+  tenantId: User
+}
+type VipPackage{
+  id: ID!
+  type:String
+  price:Float
+  limitTime:Int
+  upgradeTime:Int
+}
+
+
+

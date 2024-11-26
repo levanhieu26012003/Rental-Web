@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
+<head>
+    <title>Motel Detail Page</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <h1 class="text-center text-info mt-1">QUẢN LÝ NHÀ TRỌ</h1>
+
+        <form th:action="@{/motels/motel}" method="post" th:object="${motel}" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="title">Nhan đề</label>
+                        <input class="form-control" id="title" th:field="*{title}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="area">Diện tích (m<sup>2</sup>)</label>
+                        <input class="form-control" id="area" th:field="*{area}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Giá (VNĐ)</label>
+                        <input class="form-control" id="price" th:field="*{price}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="numberTenant">Số người ở</label>
+                        <input class="form-control" id="numberTenant" th:field="*{numberTenant}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="lng">Kinh độ</label>
+                        <input class="form-control" id="lng" th:field="*{lng}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="lat">Vĩ độ</label>
+                        <input class="form-control" id="lat" th:field="*{lat}" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="address">Số nhà/Đường</label>
+                        <input class="form-control" id="address" th:field="*{address}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="wards">Phường/Xã/Thị trấn</label>
+                        <input class="form-control" id="wards" th:field="*{wards}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="district">Quận/Huyện</label>
+                        <input class="form-control" id="district" th:field="*{district}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="province">Tỉnh/Thành phố</label>
+                        <input class="form-control" id="province" th:field="*{province}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="createdDate">Ngày đăng</label>
+                        <input class="form-control" id="createdDate" th:field="*{createdDate}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="userId">Người dùng:</label>
+                        <select class="form-control" id="userId" th:field="*{userId}">
+                            <option th:each="c : ${users}" th:value="${c.id}" th:text="${c.username}"
+                                    th:selected="${c.id == motel?.userId?.id}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Hình ảnh</label>
+                <input type="file" class="form-control" id="image" th:field="*{files}" multiple="multiple" />
+                <div th:if="${motel.id != null}">
+                    <img class="m-2 img-fluid" th:each="img : ${motel.imageCollection}" th:src="${img.url}" width="200" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div th:switch="${motel.status}">
+                    <button class="btn btn-info mt-1" type="submit" th:case="null">Thêm</button>
+                    <button class="btn btn-info ml-5 mt-1" type="submit" th:case="'PENDING'">Duyệt</button>
+                    <button class="btn btn-info mt-1" type="submit" th:case="'APPROVED'">Cập nhật</button>
+                </div>
+                <input type="hidden" th:field="*{id}" />
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

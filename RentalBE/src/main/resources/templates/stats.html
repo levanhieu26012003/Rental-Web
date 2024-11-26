@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout "
+      layout:decorate="~{layout.html}" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>User Detail Page</title>
+    <!--    <script src="common-script.js"></script>-->
+</head>
+<body>
+<section layout:fragment="content" class="container">
+
+    <div class="container">
+        <h1 class="text-center text-info mt-4">Thống Kê Doanh Thu</h1>
+
+        <form action="#" th:action="@{/stats}" method="get">
+            <div class="form-group">
+                <label for="year">Năm:</label>
+                <input type="number" class="form-control" id="year" name="year" th:value="${year ?: 2024}" required>
+            </div>
+            <div class="form-group">
+                <label for="period">Chọn Thời Gian:</label>
+                <select class="form-control" id="period" name="period">
+                    <option value="MONTH">Theo Tháng</option>
+                    <option value="QUARTER">Theo Quý</option>
+                    <option value="YEAR">Theo Năm</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Lọc</button>
+        </form>
+
+        <div class="mt-4">
+            <h3>Doanh Thu Theo
+                <span th:if="${period}=='month'"> Tháng </span>
+                <span th:if="${period}=='QUARTER'"> Quý </span>
+                Năm <span th:text="${year}"></span></h3>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Thời Gian</th>
+                    <th>Doanh Thu</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="stat : ${revenueStats}">
+                    <td th:text="${stat[0]}"></td>
+                    <td th:text="${#numbers.formatDecimal(stat[1], 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <canvas id="revenueChart"></canvas>
+    <button onclick="printReport()">In Báo Cáo</button>
+
+    <h1>Mức độ sử dụng các gói</h1>
+    <canvas id="vipPackageChart" width="400" height="200"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script th:inline="javascript">
+        const ctx = document.getElementById('vipPackageChart').getContext('2d');
+        const vipPackageChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: /*[[${packageTypes}]]*/,
+                datasets: [{
+                    label: 'VIP Package Usage',
+                    data: /*[[${usageCounts}]]*/,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        /*<![CDATA[*/
+        let revenueStats = /*[[${revenueStats}]]*/ [];
+        let labels = revenueStats.map(stat => stat[0]);
+        let data = revenueStats.map(stat => stat[1]);
+        var ctx1 = document.getElementById('revenueChart').getContext('2d');
+        var revenueChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Doanh thu',
+                    data: data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        /*]]>*/
+        function printReport() {
+            const year = document.getElementById('year').value;
+            const period = document.getElementById('period').value;
+            let username = /*[[${loggedInUser.get().username}]]*/ [];
+
+            // Tạo cửa sổ in
+            const printWindow = window.open('', '_blank', 'width=800,height=600');
+
+            // Viết HTML cho trang in
+            printWindow.document.write('<html><head><title>Print Report</title>');
+            printWindow.document.write('<style>body { font-family: Arial, sans-serif; }</style>');
+            printWindow.document.write('</head><body>');
+
+            // Thêm tiêu đề và thông tin chọn lọc vào trang in
+            printWindow.document.write('<h1>Thống Kê Doanh Thu</h1>');
+            printWindow.document.write('<p>Năm: ' + year + '</p>');
+            printWindow.document.write('<p>Thống kê theo: ' + (period === 'MONTH' ? 'Tháng' : period === 'QUARTER' ? 'Quý' : 'Năm') + '</p>');
+            printWindow.document.write('<p>Ngày in: ' + new Date().toLocaleString() + '</p>');
+            printWindow.document.write('<p>ID người in: ' + username + '</p>');
+
+            // Thêm biểu đồ vào cửa sổ in
+            const revenueChartCanvas = document.getElementById('revenueChart');
+            const revenueChartDataUrl = revenueChartCanvas.toDataURL();
+            printWindow.document.write('<h2>Biểu đồ Doanh Thu</h2>');
+            printWindow.document.write('<img src="' + revenueChartDataUrl + '" width="400" height="200">');
+
+            // Thêm dữ liệu bảng vào cửa sổ in
+            printWindow.document.write('<h2>Dữ liệu thống kê</h2>');
+            printWindow.document.write('<table border="1" cellpadding="5" cellspacing="0" style="width: 100%; border-collapse: collapse;">');
+            printWindow.document.write('<thead><tr><th>Thời Gian</th><th>Doanh Thu</th></tr></thead>');
+            printWindow.document.write('<tbody>');
+
+            // Lặp qua dữ liệu từ bảng và thêm vào cửa sổ in
+            const tableRows = document.querySelectorAll('.table tbody tr');
+            tableRows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                printWindow.document.write('<tr>');
+                cells.forEach(cell => {
+                    printWindow.document.write('<td>' + cell.textContent + '</td>');
+                });
+                printWindow.document.write('</tr>');
+            });
+
+            printWindow.document.write('</tbody></table>');
+
+            // Đóng HTML và in
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
+</section>
+</body>
+</html>
+
+
