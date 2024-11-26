@@ -1,0 +1,57 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+  list-style: none;
+}
+
+.pagination li {
+  margin: 0 0.25rem;
+}
+
+.pagination li a {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.pagination li a:hover {
+  background-color: #f1f1f1;
+}
+
+.pagination .active a {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.sent {
+  justify-content: flex-end; /* Đẩy tin nhắn của người gửi về bên phải */
+  background-color: #eceeea; /* Màu nền cho tin nhắn gửi */
+}
+
+.received {
+  justify-content: flex-start; /* Đẩy tin nhắn của người nhận về bên trái */
+  background-color: #1976d2; /* Màu nền cho tin nhắn nhận */
+}
+
+.sent img, .received img {
+  margin-left: 8px;
+}
+
+.sent .message-content, .received .message-content {
+  max-width: 70%; /* Giới hạn chiều rộng cho tin nhắn */
+}
+
+.message-content {
+  padding: 8px;
+  border-radius: 5px;
+}
