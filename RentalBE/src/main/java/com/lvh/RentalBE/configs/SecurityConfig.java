@@ -62,12 +62,12 @@ public class SecurityConfig {
                 .cors(c -> c.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
-                    authorize.anyRequest().permitAll();
-//                            .requestMatchers("/graphql/**","/api/user","api/token",
-//                                    "/login","/css/**","/js/**","/api/bill/callback","/api/suggest_keyword").permitAll()
-//                            .requestMatchers("/api/**").authenticated()
-//                            .requestMatchers("/motels/**","/review/**","/package/**").hasAnyRole("ADMIN","EMPLOYEE")
-//                            .anyRequest().hasRole("ADMIN");
+                    authorize
+                           .requestMatchers("/graphql/**","/api/user","api/token",
+                                   "/login","/css/**","/js/**","/api/bill/callback","/api/suggest_keyword").permitAll()
+                           .requestMatchers("/api/**").authenticated()
+                           .requestMatchers("/motels/**","/review/**","/package/**").hasAnyRole("ADMIN","EMPLOYEE")
+                           .anyRequest().hasRole("ADMIN");
                 })
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
