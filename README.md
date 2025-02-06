@@ -1,4 +1,4 @@
-#Rental House Website
+# Rental House Website
 
 ###A powerful map-based search feature allowing users to find rental houses by region.
 
