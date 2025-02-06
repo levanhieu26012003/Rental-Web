@@ -11,7 +11,8 @@ This project is a rental house listing platform that helps users find and list r
 🏠 Property Listings – Users can browse and list rental properties with images, descriptions, and pricing.
 
 🗺️ Google Maps Integration – Users can search for rental properties by selecting a region directly on the map.
-![Search by Region](./images/searchByRegion.png)
+
+![Search by Region](./images/SearchByRegion.png)
 
 🔎 Advanced Search & Filters – Search properties by price, area, number of tenants, and more.
 
