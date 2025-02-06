@@ -1,12 +1,12 @@
-Rental House Website
+#Rental House Website
 
-A powerful map-based search feature allowing users to find rental houses by region.
+###A powerful map-based search feature allowing users to find rental houses by region.
 
-📌 Overview
+##📌 Overview
 
 This project is a rental house listing platform that helps users find and list rental properties. It includes a variety of features to enhance the user experience, including map-based search, user authentication, and filtering options.
 
-🚀 Features
+##🚀 Features
 
 🏠 Property Listings – Users can browse and list rental properties with images, descriptions, and pricing.
 
@@ -22,11 +22,11 @@ This project is a rental house listing platform that helps users find and list r
 
 📱 Responsive Design – Fully functional on desktop and mobile devices.
 
-📷 Screenshots
+##📷 Screenshots
 
 Find rental properties by selecting a region on Google Maps.
 
-🛠️ Tech Stack
+##🛠️ Tech Stack
 
 Frontend: React, MUI (Material-UI), React Router
 
@@ -40,7 +40,7 @@ Cloud Storage: Cloudinary (for image uploads)
 
 Hosting: Deployed on AWS/Heroku
 
-📖 Installation & Setup
+##📖 Installation & Setup
 
 Clone the repository:
 
